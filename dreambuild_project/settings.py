@@ -37,10 +37,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'appointments.apps.AppointmentsConfig'
+    # 3rd-party apps
+    'rest_framework',
+    'corsheaders',
+    # Local
+    'users.apps.UsersConfig',
+    'appointments.apps.AppointmentsConfig',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  # cors must appear on top
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -54,8 +61,8 @@ ROOT_URLCONF = 'dreambuild_project.urls'
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',  # loaded first
+        'DIRS': [],  # will overwite the original templates inside of the lib/site-packages
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -119,3 +126,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',  # default is .AllowAny
+    ]
+}
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:8001'
+)
+
+AUTH_USER_MODEL = 'users.CustomUser'
