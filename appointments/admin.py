@@ -9,5 +9,4 @@ class AppointmentAdmin(admin.ModelAdmin):
     list_filter = ('read')
 
 
-admin.site.site_header = 'DGB adminz'
 admin.site.register(Appointment)
